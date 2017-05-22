@@ -1,0 +1,26 @@
+<div>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header">
+            <button class="navbar-toggle" data-togle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/voting_app" target="_self">Voting Platform</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/voting_app" target="_self">Voting Home</a></li>
+                <li ng-if="showUser"><a ui-sref="myPolls">My Polls</a></li>
+                <li ng-if="showUser"><a href="/#/new_poll">My Polls</a></li>
+                <li ng-if="showUser" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">{{user.twitter.userName}}<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/#/logout">Log Out</a></li>
+                    </ul>
+                </li>
+                <li ng-if="!showUser"><a href="voting_app/auth/twitter">Sign in with Twitter</a></li>
+            </ul>
+        </div>    
+    </nav>
+</div>

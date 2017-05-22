@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-4">
+            <h2>{{poll.pollTitle}}</h2>
+            <form>
+                <div class="form-group">
+                    <label for="selection">I'd like to vote for:</label>
+                    <select class="form-control" id="selection" ng-model="selectionOption">
+                        <option ng-repeat="option in pollOptions" value={{option}}>{{option}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" ng-click="submitOption()">Submit</button>
+                </div>
+                <div class="form-group" ng-show="isUser">
+                    <button class="btn btn-danger" ng-click="deletePoll()">Delete this poll</button>
+                </div>
+                <a href="#" class="btn" target="_blank" id="twitter_share"><span></span>Share this poll to Twitter</a>
+            </form>
+        </div>
+        <div class="col-xs-8 pieChart">
+            <canvas id="donut" class="chart chart-doughnut" chart-data="chartData" chart-labels="chartLabels" chart-legen="true"></canvas>
+        </div>
+    </div>
+    <div class="pollErrInfo" ng-show="showErr">
+        {{errInfo}}
+    </div>
+</div>

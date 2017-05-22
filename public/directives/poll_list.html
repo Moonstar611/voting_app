@@ -1,0 +1,7 @@
+<div class="container" id="poll_list">
+    <div class="list-group">
+        <a ng-repeat="poll in polls" class="list-group-item" ui-sref="showPoll({pollId:poll.pollId})">
+            {{poll.pollTitle}}
+        </a>
+    </div>
+</div>
