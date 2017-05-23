@@ -2,3 +2,9 @@
     Author     : McGradroy
 */
 
+.content{
+    margin-top: 100px;
+}
+#userButton{
+    cursor: pointer;
+}

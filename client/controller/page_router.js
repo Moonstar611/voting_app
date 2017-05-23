@@ -1,18 +1,23 @@
 /* 
  * provide the function of page state routing
+ 
+ debug: authresolve and $state deleted for debug
  */
 "use strict";
 
-function pageRouter(app) {
-    console.log("p3");
-    app.config(["$stateProvider", "$urlRouterProvider", "AuthResolve", "$state", function ($stateProvider, $urlRouterProvider, $state, AuthResolve) {
+(function(angular) {
+    var app = angular.module("votingApp");
+    app.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider, AuthResolve) {
+            
+                
             $stateProvider
                     .state("pollList", {
                         url: "/poll_list",
                         templateUrl: "/v_a/public/directives/poll_list.html",
                         controller: pollListCtrl
-                    })
-                    .state("newPoll", {
+                    });  
+                    
+            $stateProvider.state("newPoll", {
                         url: "/new_poll",
                         templateUrl: "/v_a/public/templates/new_poll.html",
                         controller: newPollCtrl,
@@ -32,6 +37,17 @@ function pageRouter(app) {
                             }
                         }
                     })
+                    .state("myVotes", {
+                        url: "/my_votes",
+                        templateUrl: "/v_a/public/templates/my_votes.html",
+                        controller: myVoteCtrl,
+                        resolve: {
+                            auth: function (AuthResolve) {
+                                return AuthResolve.resolve();
+                            }
+                        }
+                    })
+                    
                     .state("unauth", {
                         url: "/unauth",
                         templateUrl: "/v_a/public/templates/unauth.html"
@@ -45,7 +61,19 @@ function pageRouter(app) {
                                 var deferred = $q.defer();
                                 $http.get("/api/voting/checkUser")
                                         .then(function (res) {
-                                            console.log(res.data);
+                                            //console.log("checkUser", res.data);
+                                            deferred.resolve(res.data);
+                                        })
+                                        .catch(function () {
+                                            deferred.reject();
+                                        });
+                                        
+                                return deferred.promise;
+                            },
+                            sameUser: function ($q, $http, $stateParams) {
+                                var deferred = $q.defer();
+                                $http.get("/api/voting/sameUser/"+$stateParams.pollId)
+                                        .then(function (res) {
                                             deferred.resolve(res.data);
                                         })
                                         .catch(function () {
@@ -57,19 +85,51 @@ function pageRouter(app) {
                     });
             $urlRouterProvider.when("/unauth", "/unauth");
             $urlRouterProvider.otherwise("/poll_list");
+            console.log("router async");
         }]);
         
 
-    function myPollCtrl($http, $state, Session, $scope, auth, $location) {
+    function myPollCtrl($http, Session, $scope, auth, $location) { //???!!!!!!!!!!!
         if (auth == null) {
             console.log("Unauthorized user");
             $location.path("/voting_app/unauth");
             return;
         }
-        $scope.user = Session.getUser();
-        $http.get("/api/voting/users" + Session.getUser().twitter.userId + "/polls")
+        var user = Session.getUser();
+        if( user==null){
+            $scope.showErr = true;
+            $scope.errInfo = "Fail to acquire user information, please refresh";
+            return;
+        }
+        
+        $scope.user = user;
+        $http.get("/api/voting/users/" + user.twitter.userId + "/polls")
                 .then(function (res) {
                     console.log(res.data);
+                    $scope.polls = res.data;
+                })
+                .catch(function (err) {
+                    throw err;
+                });
+    }
+    
+    function myVoteCtrl($http, Session, $scope, auth, $location) {
+        if (auth == null) {
+            console.log("Unauthorized user");
+            $location.path("/voting_app/unauth");
+            return;
+        }
+        var user = Session.getUser();
+        if( user==null){
+            $scope.showErr = true;
+            $scope.errInfo = "Fail to acquire user information, please refresh";
+            return;
+        }
+        $scope.user = user;
+        $http.get("/api/voting/users/" + user.twitter.userId + "/votes")
+                .then(function (res) {
+                    console.log(res.data);
+                    $scope.polls = res.data;
                 })
                 .catch(function (err) {
                     throw err;
@@ -86,20 +146,32 @@ function pageRouter(app) {
         });
     }
 
-    function pollAdminCtrl(ShowSwitch, $scope, $stateParams, $http, $state, Session, checkUser) {
+    function pollAdminCtrl(ShowSwitch, $scope, $stateParams, $http, Session, $state, checkUser, sameUser) {
         ShowSwitch.getScope().showList = false;
         $scope.showErr = false;
         $scope.selected = false;
         var pollItem;
         console.log("checkUser: ", checkUser);
-        console.log("Session: ", Session.getUser().twitter);
-        if (checkUser == null) {
-            $scope.isUser = false;
+        console.log("sameUser: ", sameUser);
+        $scope.currUser = checkUser;
+        if (checkUser == null||sameUser == null) {
+            $scope.isSameUser = false;
+            if(checkUser!=null){
+                
+                $scope.isUser = true;
+            }else if(checkUser==null){
+                $scope.isUser = false;
+            }
+            /*console.log("CurrentUser ID ",currUserId);*/
         } else {
             $scope.isUser = true;
+            $scope.isSameUser = true;
         }
+        console.log("is user? ", $scope.isUser);
+        console.log("same user? ", $scope.isSameUser);
         $http.get("/api/voting/polls/" + $stateParams.pollId)
                 .then(function (res) {
+                    console.log("respond receiver: ",res);
                     $scope.poll = res.data[0];
                     $scope.pollOptions = Object.keys(res.data[0].pollOptions);
                     pollItem = res.data[0];
@@ -116,18 +188,18 @@ function pageRouter(app) {
             }
             if ($scope.selected) {
                 $scope.showErr = true;
-                $scope.errIndo = "You already selected one, you can not select multiple times";
+                $scope.errInfo = "You already selected one, you can not select multiple times";
                 return;
             }
-            $scope.soelected = true;
+            $scope.selected = true;
             $scope.showErr = false;
             var findObj = {
                 "pollId": $stateParams.pollId,
                 "selectOption": $scope.selectOption,
-                "userId": $scope.isUser ? Session.getUser().twitter.userId : "participants"
+                "userId": $scope.isUser? $scope.currUser.twitter.userId : "participants"
             };
 
-            $http.put("/api/polls/" + $stateParams.pollId, findObj)
+            $http.put("/api/voting/polls/" + $stateParams.pollId, findObj)
                     .then(function (res) {
                         console.log(res.data);
                         if (res.data == "Err") {
@@ -137,6 +209,8 @@ function pageRouter(app) {
                             return;
                         }
                         pollItem.pollOptions[$scope.selectOption]++;
+                        $scope.showErr = true;
+                        $scope.errInfo = "Your vote has been recorded!";
                         drawPie(pollItem, $scope);
                     })
                     .catch(function (err) {
@@ -164,7 +238,7 @@ function pageRouter(app) {
         });
     }
 
-    function newPollCtrl($scope, $http, $location, Session, ShowSwitch, $state, auth) {
+    function newPollCtrl($scope, $http, $location, Session, ShowSwitch, auth, $state) {
         if (auth == null) {
             console.log("Unauthorized user");
             $location.path("/voting_app/unauth");
@@ -175,6 +249,7 @@ function pageRouter(app) {
         $scope.titleInput = "";
         $scope.optionsInput = "";
         $scope.submitPoll = function () {
+            console.log($scope.titleInput, $scope.optionsInput);
             var pollId = "poll" + Date.now();
             var pollObj = {};
             $scope.showErr = false;
@@ -208,6 +283,7 @@ function pageRouter(app) {
                     });
         };
     }
-}
+    console.log("router sync");
+})(window.angular);
 
 

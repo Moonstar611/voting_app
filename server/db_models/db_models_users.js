@@ -10,7 +10,8 @@ var userSchema = new Schema({
     twitter: {
         userId: String,
         userName: String,
-        polls: []
+        polls: [],
+        votedPolls: []
     }
 });
 

@@ -1,21 +1,15 @@
 /* 
  * register the app to angular,and register mainCtrl controller and services
  */
+ //delete chart.js will fix some
+ //chat.js still not working, most front end problem solved, attention to apis
 "use strict";
 
 (function (angular) {
-    var app = angular.module("votingApp", ["ui.router", "Chart.js"]);
-    console.log("p1");
-    pageRouter(app);
-    app.controller("mainCtrl", ["$scope", "$http", "Session", "ShowSwitch", function ($scope, $http, Session, ShowSwitch) {
-        
-                    console.log("worinima");
-                    $scope.showList = true;
-                    console.log(Session);
-                    ShowSwitch.updateScope($scope);
-                }]);
-    console.log("p1");
-    console.log("p2");
+    var app = angular.module("votingApp", ["ui.router",function(){
+        console.log("app reg async");
+    }]);
+    console.log("app reg sync");
 })(window.angular);
 
 
