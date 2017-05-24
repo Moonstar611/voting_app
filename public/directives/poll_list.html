@@ -1,4 +1,5 @@
 <div class="container" id="poll_list">
+    <h3>Below are available polls, click to see details.</h3>
     <div class="list-group">
         <a ng-repeat="poll in polls" class="list-group-item" ui-sref="showPoll({pollId:poll.pollId})">
             {{poll.pollTitle}}

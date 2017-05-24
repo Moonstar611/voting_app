@@ -2,14 +2,14 @@
     <h1>Start A New Poll</h1>
     <form>
         <div class="form-group">
-            <label for="poll_title">Poll Title:</label>
+            <label for="poll_title">POLL TITLE:</label>
             <input type="text" id="poll_title" ng-model="titleInput" class="form-control">
         </div>
         <div class="form-group">
-            <label for="poll_options">Poll Options:</label>
+            <label for="poll_options">POLL OPTIONS (ONE OPTION IN EACH LINE):</label>
             <textarea class="form-control" id="poll_options" placehoder="Fill in options in each line" rows="10" cols="50" ng-model="optionsInput"></textarea>
         </div>
-        <a class="btn btn-lg btn-primary" ng-click=submitPoll()>Make Your Poll!</a>
+        <a class="btn btn-lg btn-primary btn-block" ng-click=submitPoll()>START YOUR POLL</a>
     </form>
-    <p ng-show="showErr">Please provide title and at least two options for the poll</p>
+    <p ng-show="showErr" style="color: red">Please provide title and at least two options for the poll!</p>
 </div>

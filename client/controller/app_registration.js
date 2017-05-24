@@ -6,10 +6,10 @@
 "use strict";
 
 (function (angular) {
-    var app = angular.module("votingApp", ["ui.router",function(){
-        console.log("app reg async");
+    var app = angular.module("votingApp", ["ui.router","chart.js",function(){
+        //console.log("app reg async");
     }]);
-    console.log("app reg sync");
+    //console.log("app reg sync");
 })(window.angular);
 
 

@@ -38,7 +38,7 @@ module.exports = function(app){
             if(err){
                 throw err;
             }
-            //console.log(user);
+            //////console.log(user);
             var rtPolls = [];
             findUserPolls(0, user.twitter.polls, rtPolls, function(){
                 return res.json(rtPolls);
@@ -52,7 +52,7 @@ module.exports = function(app){
             if(err){
                 throw err;
             }
-            //console.log(user);
+            //////console.log(user);
             var rtVotes = [];
             findUserVotes(0, user.twitter.votedPolls, rtVotes, function(){
                 return res.json(rtVotes);
@@ -81,7 +81,7 @@ module.exports = function(app){
             });
                 
             }else{
-                console.log("a participants has voted");
+                ////console.log("a participants has voted");
             }
             
             polls.update({"pollId": req.body.pollId}, {
@@ -97,7 +97,7 @@ module.exports = function(app){
     };
     
     this.createPoll = function(req,res,next){
-        console.log("newpoll req: ", req.body);
+        ////console.log("newpoll req: ", req.body);
         var newPoll = new polls();
         newPoll.pollId = req.body.pollId;
         newPoll.pollTitle = req.body.pollTitle;
@@ -142,13 +142,13 @@ module.exports = function(app){
         if(req.user==null) return res.json(null);
         var reqPollId = req.params.pollId;
         var reqUserId = req.user.twitter.userId;
-        console.log("reqPollId: ", req.params.pollId);
-        console.log("reqUserId: ", req.user.twitter.userId);
+        ////console.log("reqPollId: ", req.params.pollId);
+        ////console.log("reqUserId: ", req.user.twitter.userId);
         polls.findOne({"pollId": reqPollId}, function(err, poll){
             if(err){
                 throw err;
             }
-            console.log("return userId:", poll.userId);
+            ////console.log("return userId:", poll.userId);
             if(poll.userId==reqUserId){
                 res.json(req.user);
             }else{
@@ -168,7 +168,7 @@ module.exports = function(app){
                 throw err;
             }
             rt.push(poll);
-            //console.log(rt);
+            //////console.log(rt);
             findUserPolls(i+1, pollIds, rt, callback);
         });
     }
@@ -184,7 +184,7 @@ module.exports = function(app){
                 throw err;
             }
             rt.push(poll);
-            //console.log(rt);
+            //////console.log(rt);
             findUserVotes(i+1, votedPollIds, rt, callback);
         });
     }

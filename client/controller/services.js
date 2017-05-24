@@ -4,7 +4,7 @@
     angular.module("votingApp").service("Session", function () {
         
                     
-                console.log("service async1");
+                //console.log("service async1");
                 var user = null;
                 
                 this.updateUser = function (input) {
@@ -17,10 +17,10 @@
                    // }
                     return user;
                 };
-                console.log("Session registered");
+                //console.log("Session registered");
             });  
     angular.module("votingApp").service("AuthResolve", /*["$q", "$http", "$location", "Session", */function ($q, $http, $location, Session) {
-                console.log("dafads");
+                //console.log("dafads");
                     
                        this.resolve = function() {
                     var deferred = $q.defer();
@@ -41,10 +41,12 @@
                             })
                             .catch(function (err) {
                                 deferred.reject();
-                                console.log(err);
+                                
+                                //console.log(err);
                                 $location.path = "/voting_app/logout";
+                                throw err;
                             });
-                            console.log("service async2");
+                            //console.log("service async2");
                     return deferred.promise;
                     
                 };
@@ -60,9 +62,9 @@
                 this.getScope = function () {
                     return topScope;
                 };
-                console.log("service async3");
+                //console.log("service async3");
             });
-            console.log("services sync");
+            //console.log("services sync");
 })(window.angular);
 
 

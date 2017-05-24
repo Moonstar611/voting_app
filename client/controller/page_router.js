@@ -85,27 +85,27 @@
                     });
             $urlRouterProvider.when("/unauth", "/unauth");
             $urlRouterProvider.otherwise("/poll_list");
-            console.log("router async");
+            //console.log("router async");
         }]);
         
 
     function myPollCtrl($http, Session, $scope, auth, $location) { //???!!!!!!!!!!!
         if (auth == null) {
-            console.log("Unauthorized user");
+            //console.log("Unauthorized user");
             $location.path("/voting_app/unauth");
             return;
         }
         var user = Session.getUser();
         if( user==null){
             $scope.showErr = true;
-            $scope.errInfo = "Fail to acquire user information, please refresh";
+            $scope.errInfo = "Fail to acquire user information, please refresh!";
             return;
         }
         
         $scope.user = user;
         $http.get("/api/voting/users/" + user.twitter.userId + "/polls")
                 .then(function (res) {
-                    console.log(res.data);
+                    //console.log(res.data);
                     $scope.polls = res.data;
                 })
                 .catch(function (err) {
@@ -115,20 +115,20 @@
     
     function myVoteCtrl($http, Session, $scope, auth, $location) {
         if (auth == null) {
-            console.log("Unauthorized user");
+            //console.log("Unauthorized user");
             $location.path("/voting_app/unauth");
             return;
         }
         var user = Session.getUser();
         if( user==null){
             $scope.showErr = true;
-            $scope.errInfo = "Fail to acquire user information, please refresh";
+            $scope.errInfo = "Fail to acquire user information, please refresh!";
             return;
         }
         $scope.user = user;
         $http.get("/api/voting/users/" + user.twitter.userId + "/votes")
                 .then(function (res) {
-                    console.log(res.data);
+                    //console.log(res.data);
                     $scope.polls = res.data;
                 })
                 .catch(function (err) {
@@ -151,8 +151,8 @@
         $scope.showErr = false;
         $scope.selected = false;
         var pollItem;
-        console.log("checkUser: ", checkUser);
-        console.log("sameUser: ", sameUser);
+        //console.log("checkUser: ", checkUser);
+        //console.log("sameUser: ", sameUser);
         $scope.currUser = checkUser;
         if (checkUser == null||sameUser == null) {
             $scope.isSameUser = false;
@@ -162,16 +162,16 @@
             }else if(checkUser==null){
                 $scope.isUser = false;
             }
-            /*console.log("CurrentUser ID ",currUserId);*/
+            //console.log("CurrentUser ID ",currUserId);
         } else {
             $scope.isUser = true;
             $scope.isSameUser = true;
         }
-        console.log("is user? ", $scope.isUser);
-        console.log("same user? ", $scope.isSameUser);
+        //console.log("is user? ", $scope.isUser);
+        //console.log("same user? ", $scope.isSameUser);
         $http.get("/api/voting/polls/" + $stateParams.pollId)
                 .then(function (res) {
-                    console.log("respond receiver: ",res);
+                    //console.log("respond receiver: ",res);
                     $scope.poll = res.data[0];
                     $scope.pollOptions = Object.keys(res.data[0].pollOptions);
                     pollItem = res.data[0];
@@ -188,7 +188,7 @@
             }
             if ($scope.selected) {
                 $scope.showErr = true;
-                $scope.errInfo = "You already selected one, you can not select multiple times";
+                $scope.errInfo = "You already selected one, you can not select multiple times!";
                 return;
             }
             $scope.selected = true;
@@ -201,11 +201,11 @@
 
             $http.put("/api/voting/polls/" + $stateParams.pollId, findObj)
                     .then(function (res) {
-                        console.log(res.data);
+                        //console.log(res.data);
                         if (res.data == "Err") {
                             $scope.showErr = true;
-                            console.log("error");
-                            $scope.errInfo = "Your vote has been recorded, you can not vote again";
+                            //console.log("error");
+                            $scope.errInfo = "Your have already voted, you can not vote again!";
                             return;
                         }
                         pollItem.pollOptions[$scope.selectOption]++;
@@ -220,7 +220,7 @@
         $scope.deletePoll = function () {
             $http.delete("/api/voting/polls/" + $stateParams.pollId)
                     .then(function (res) {
-                        console.log("leave");
+                        //console.log("leave");
                         $state.go("pollList");
                     })
                     .catch(function (err) {
@@ -229,18 +229,50 @@
         };
     }
 
+
     function drawPie(poll, scope) {
-        console.log(poll.pollId);
-        scope.chartLabels = Object.keys(poll.pollOptions);
-        scope.chartData = [];
-        scope.chartLabels.forEach(function (key) {
-            scope.chartData.push(poll.pollOptions[key]);
+        //console.log(poll.pollId);
+        scope.options = {
+            responsive: false,
+            title: {
+            display: true,
+            text: poll.pollTitle,
+            fontColor: "white",
+            fontSize: 25,
+            fontFamily: "Signika",
+        },
+            legend: {
+                display: true,
+                labels:{
+                    fontColor: "white",
+                    fontSize: 20,
+                    fontFamily: "Signika",
+                    boxWidth: 60
+                }
+            },
+            tooltips:{
+                enabled:true,
+                titleFontSize:18,
+                titleFontFamily:"Signika",
+                titleFontColor:"white",
+                bodyFontSize:18,
+                bodyFontFamily:"Signika",
+                bodyFontColor:"white",
+                
+            }
+        };
+        scope.labels = Object.keys(poll.pollOptions);
+        scope.data = [];
+        scope.labels.forEach(function (key) {
+            scope.data.push(poll.pollOptions[key]);
         });
+        
     }
+
 
     function newPollCtrl($scope, $http, $location, Session, ShowSwitch, auth, $state) {
         if (auth == null) {
-            console.log("Unauthorized user");
+            //console.log("Unauthorized user");
             $location.path("/voting_app/unauth");
             return;
         }
@@ -249,7 +281,7 @@
         $scope.titleInput = "";
         $scope.optionsInput = "";
         $scope.submitPoll = function () {
-            console.log($scope.titleInput, $scope.optionsInput);
+            //console.log($scope.titleInput, $scope.optionsInput);
             var pollId = "poll" + Date.now();
             var pollObj = {};
             $scope.showErr = false;
@@ -283,7 +315,7 @@
                     });
         };
     }
-    console.log("router sync");
+    //console.log("router sync");
 })(window.angular);
 
 

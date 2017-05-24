@@ -1,27 +1,29 @@
 <div>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top" id="navbar">
+        <div class ="container-fluid">
         <div class="navbar-header">
-            <button class="navbar-toggle" data-togle="collapse" data-target="#myNavbar">
+            <button type="button" class="navbar-toggle" data-togle="collapse" data-target="#myNavbar">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/voting_app" target="_self">Voting Platform</a>
+            <a class="navbar-brand" href="#" target="_self"><strong>Online Voting</strong></a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/voting_app" target="_self">Voting Home</a></li>
-                <li ng-if="showUser"><a ui-sref="myPolls">My Polls</a></li>
-                <li ng-if="showUser"><a ui-sref="myVotes">My Votes</a></li>
-                <li ng-if="showUser"><a ui-sref="newPoll">New Poll</a></li>
+                <li><a href="/voting_app" target="_self"><strong>POLL LIST</strong></a></li>
+                <li ng-if="showUser"><a ui-sref="myPolls"><strong>MY POLLS</strong></a></li>
+                <li ng-if="showUser"><a ui-sref="myVotes"><strong>MY VOTES</strong></a></li>
+                <li ng-if="showUser"><a ui-sref="newPoll"><strong>NEW POLL</strong></a></li>
                 <li ng-if="showUser" class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" id="userButton">{{user.twitter.userName}}<span class="caret"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" id="userButton"><stong></stong>{{user.twitter.userName}}</strong><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/voting_app/logout">Log Out</a></li>
+                        <li><a href="/voting_app/logout" id="logout"><span class="glyphicon glyphicon-log-out" style="text-align:left"></span> Log Out</a></li>
                     </ul>
                 </li>
-                <li ng-if="!showUser"><a href="/voting_app/auth/twitter">Sign in with Twitter</a></li>
+                <li ng-if="!showUser"><a href="/voting_app/auth/twitter">SIGN IN <span class="glyphicon glyphicon-log-in"></span></a></li>
             </ul>
-        </div>    
+        </div>
+        </div>
     </nav>
 </div>

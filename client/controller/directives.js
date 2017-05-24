@@ -2,7 +2,7 @@
 
 (function(angular){
     angular.module("votingApp").directive("myBox", function () {
-        console.log("directives async1");
+        //console.log("directives async1");
                 return{
                     restrict: "E",
                     transclude: true,
@@ -12,7 +12,7 @@
                 };
             });
     angular.module("votingApp").directive("myNavbar", function () {
-        console.log("directives async2");
+        //console.log("directives async2");
                 return{
                     restrict: "E",
                     scope: {},
@@ -28,7 +28,7 @@
                 };
             });
     angular.module("votingApp").directive("myPolllist", function () {
-        console.log("directives async3");
+        //console.log("directives async3");
                 return{
                     restrict: "E",
                     scope: {},
@@ -61,5 +61,5 @@
     function pollListLink(scope, ele, attrs, boxCtrl){
         boxCtrl.getList(scope);
     }
-    console.log("directs sync");
+    //console.log("directs sync");
 })(window.angular);

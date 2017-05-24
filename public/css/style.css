@@ -2,9 +2,150 @@
     Author     : McGradroy
 */
 
+body{
+    background-color: #303030;
+    color: #ffffff;
+}
+
+#navbar{
+    background-color:#722872;
+    box-shadow: 0px 2px 2px 1px rgba(0,0,0,0.2);
+    z-index: 1000;
+    font-family:"Orbitron", sans-serif;
+    font-size: 15px;
+}
+#navbar li:hover{
+    background-color: white;
+}
+#navbar .navbar-brand:hover{
+    color: white;
+}
+#logout{
+    text-align:center;
+}
+
+#userButton{
+    cursor: pointer;
+}
+
 .content{
     margin-top: 100px;
 }
-#userButton{
-    cursor: pointer;
+#poll_list{
+    margin-left:auto;
+    font-size: 25px;
+    font-family:"Signika", sans-serif;
+    
+    
+    padding:5px 5px 5px 5px;
+}
+#poll_list .list-group{
+    margin-bottom:2px;
+    color: black;
+}
+#poll_list h3{
+    font-family: "Droid-sans";
+    text-align:center;
+}
+#my_polls{
+    margin-left:auto;
+    font-size: 25px;
+    font-family:"Signika", sans-serif;
+    
+    
+    padding:5px 5px 5px 5px;
+}
+#my_polls h1{
+    font-family: "Droid-sans";
+    text-align:center;
+}
+#my_polls h3{
+    font-family: "Droid-sans";
+    text-align:left;
+}
+#my_polls .list-group{
+    margin-bottom:2px;
+    color: black;
+}
+#my_polls .pollErrInfo{
+    color:red;
+}
+#my_votes{
+    margin-left:auto;
+    font-size: 25px;
+    font-family:"Signika", sans-serif;
+    
+    
+    padding:5px 5px 5px 5px;
+}
+#my_votes h1{
+    font-family: "Droid-sans";
+    text-align:center;
+}
+#my_votes h3{
+    font-family: "Droid-sans";
+    text-align:left;
+}
+#my_votes .list-group{
+    margin-bottom:2px;
+    color: black;
+}
+#my_votes .pollErrInfo{
+    color:red;
+}
+#new_poll{
+    margin-left:auto;
+    font-size: 25px;
+    font-family:"Droid-sans";
+    
+}
+#new_poll h1{
+    text-align:center;
+}
+#new_poll a,#poll_title,#poll_options{
+    font-family:"Signika", sans-serif;
+    font-size: 25px;
+}
+
+#poll_detail{
+    margin-top:150px;
+}
+
+
+#poll_detail #option_box h2{
+    font-family:"Signika", sans-serif;
+    font-size: 36px;
+}
+#poll_detail #option_box label{
+    font-size: 25px;
+    font-family:"Droid-sans";
+}
+#poll_detail #option_box option{
+    font-size: 22px;
+    font-family:"Droid-sans";
+}
+#poll_detail #option_box button{
+    
+    font-family:"Signika", sans-serif;
+    font-size: 25px;
+}
+#poll_detail #chart{
+    color: white;
+    font-size: 20px;
+    font-family:"Signika", sans-serif;
+}
+footer{
+    padding-top: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top:50px;
+}
+footer div{
+    color:#ffffff;
+    font-family: "Droid Sans";
+    font-size: 15px;
+}
+footer div a{
+    font-family: "Yellowtail";
+    color:#ffffff;
 }

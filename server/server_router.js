@@ -45,7 +45,7 @@ module.exports = function(app, passport){
     app.get("/api/voting/user", isLogin, ctrl.getUser);
     
     app.get("/api/voting/checkUser", function(req,res){
-        console.log("reqUser: ", req.user);
+        //console.log("reqUser: ", req.user);
         if(req.isAuthenticated()){
             return res.json(req.user);
         }else{

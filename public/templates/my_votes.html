@@ -1,6 +1,6 @@
-<div class="container" id="my_polls">
-    <h1>Hello {{user.twitter.userName}}</h1>
-    <h3>Below are polls you voted, click to check result</h3>
+<div class="container" id="my_votes">
+    <h1>Hello, {{user.twitter.userName}} !</h1>
+    <h3>Below are polls you voted, click to see details.</h3>
     <div class="list-group">
         <a ng-repeat="poll in polls" class="list-group-item" ui-sref="showPoll({pollId:poll.pollId})">
             {{poll.pollTitle}}
